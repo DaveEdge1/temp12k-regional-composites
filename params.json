@@ -7,7 +7,7 @@
 "maxResolution":200,
 "interpVariable":"T",
 "seasonalityGeneral":"summer+",
-"ncores":2,
+"ncores":1,
 "ageVar":"age",
 "alignInterpDirection":"FALSE",
 "spread":"TRUE",

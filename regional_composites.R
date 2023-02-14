@@ -40,8 +40,8 @@ registerDoParallel(params$ncores)
 ensOut <- foreach(i = 1:nens) %dopar% {
   tc <- compositeR::compositeEnsembles(TS,
                            binvec,
-                           stanFun = standardizeMeanIteratively,
-                           binFun = simpleBinTs,
+                           stanFun = compositeR::standardizeMeanIteratively,
+                           binFun = compositeR::simpleBinTs,
                            ageVar = params$ageVar,
                            alignInterpDirection = params$alignInterpDirection,
                            spread = params$spread,
@@ -55,8 +55,8 @@ ensOut <- foreach(i = 1:nens) %dopar% {
 }else{
   ensOut <- purrr::rerun(nens,compositeR::compositeEnsembles(fTS = TS,
                            binvec = binvec,
-                           stanFun = standardizeMeanIteratively,
-                           binFun = simpleBinTs,
+                           stanFun = compositeR::standardizeMeanIteratively,
+                           binFun = compositeR::simpleBinTs,
                            ageVar = params$ageVar,
                            alignInterpDirection = params$alignInterpDirection,
                            spread = params$spread,
