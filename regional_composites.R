@@ -1,19 +1,22 @@
-# suppressWarnings(suppressPackageStartupMessages(library(lipdR))) #to read and interact with LiPD data
-# suppressWarnings(suppressPackageStartupMessages(library(geoChronR))) #for plotting mostly
-# suppressWarnings(suppressPackageStartupMessages(library(magrittr))) #we'll be using the magrittr pipe ( %>% ) for simplicity
-# suppressWarnings(suppressPackageStartupMessages(library(dplyr))) #and dplyr for data.frame manipulation
-# suppressWarnings(suppressPackageStartupMessages(library(ggplot2))) #for plotting
-# suppressWarnings(suppressPackageStartupMessages(library(compositeR))) #remotes::install_github("nickmckay/compositeR")
-# #suppressWarnings(suppressPackageStartupMessages(library(foreach))) #for parallel processing
-# #suppressWarnings(suppressPackageStartupMessages(library(doParallel)))#for parallel processing
-# suppressWarnings(suppressPackageStartupMessages(library(jsonlite))) # to read in parameters
-# suppressWarnings(suppressPackageStartupMessages(library(purrr)))
-# suppressWarnings(suppressPackageStartupMessages(library(readr)))
-
 print("Initiating environment...")
-renv::restore()
+
+suppressWarnings(suppressPackageStartupMessages(library(lipdR))) #to read and interact with LiPD data
+suppressWarnings(suppressPackageStartupMessages(library(geoChronR))) #for plotting mostly
+suppressWarnings(suppressPackageStartupMessages(library(magrittr))) #we'll be using the magrittr pipe ( %>% ) for simplicity
+suppressWarnings(suppressPackageStartupMessages(library(dplyr))) #and dplyr for data.frame manipulation
+suppressWarnings(suppressPackageStartupMessages(library(ggplot2))) #for plotting
+suppressWarnings(suppressPackageStartupMessages(library(compositeR))) #remotes::install_github("nickmckay/compositeR")
+#suppressWarnings(suppressPackageStartupMessages(library(foreach))) #for parallel processing
+#suppressWarnings(suppressPackageStartupMessages(library(doParallel)))#for parallel processing
+suppressWarnings(suppressPackageStartupMessages(library(jsonlite))) # to read in parameters
+suppressWarnings(suppressPackageStartupMessages(library(purrr)))
+suppressWarnings(suppressPackageStartupMessages(library(readr)))
+
+
 
 print("Script starting...")
+
+print(getwd())
 
 #get parameters
 params <- jsonlite::read_json("params.json")
@@ -110,7 +113,7 @@ if(!dir.exists(params$outDir)){
   dir.create(params$outDir)
 }
 
-print("Saving Output")
+print(paste0("Saving Output to: ", params$outDir))
 
 ggsave(outPlot,filename = file.path(params$outDir,"compositePlot.pdf"))
 
