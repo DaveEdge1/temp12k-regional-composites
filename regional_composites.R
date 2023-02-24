@@ -1,21 +1,26 @@
-library(lipdR) #to read and interact with LiPD data
-library(geoChronR) #for plotting mostly
-library(magrittr) #we'll be using the magrittr pipe ( %>% ) for simplicity
-library(dplyr) #and dplyr for data.frame manipulation
-library(ggplot2) #for plotting
-library(compositeR) #remotes::install_github("nickmckay/compositeR")
-library(foreach) #for parallel processing
-library(doParallel)#for parallel processing
-library(jsonlite) # to read in parameters
-library(purrr)
-library(readr)
+# suppressWarnings(suppressPackageStartupMessages(library(lipdR))) #to read and interact with LiPD data
+# suppressWarnings(suppressPackageStartupMessages(library(geoChronR))) #for plotting mostly
+# suppressWarnings(suppressPackageStartupMessages(library(magrittr))) #we'll be using the magrittr pipe ( %>% ) for simplicity
+# suppressWarnings(suppressPackageStartupMessages(library(dplyr))) #and dplyr for data.frame manipulation
+# suppressWarnings(suppressPackageStartupMessages(library(ggplot2))) #for plotting
+# suppressWarnings(suppressPackageStartupMessages(library(compositeR))) #remotes::install_github("nickmckay/compositeR")
+# #suppressWarnings(suppressPackageStartupMessages(library(foreach))) #for parallel processing
+# #suppressWarnings(suppressPackageStartupMessages(library(doParallel)))#for parallel processing
+# suppressWarnings(suppressPackageStartupMessages(library(jsonlite))) # to read in parameters
+# suppressWarnings(suppressPackageStartupMessages(library(purrr)))
+# suppressWarnings(suppressPackageStartupMessages(library(readr)))
 
+print("Initiating environment...")
+renv::restore()
+
+print("Script starting...")
 
 #get parameters
 params <- jsonlite::read_json("params.json")
 
 D <- readLipd("https://lipdverse.org/Temp12k/1_0_2/Temp12k1_0_2.zip")
 
+print("Filtering data")
 TS <- as.lipdTsTibble(D) %>% # and the then to lipd-ts-tibble for filtering
   filter(between(geo_longitude,params$lonRange[[1]],params$lonRange[[2]])) %>%
   filter(between(geo_latitude,params$latRange[[1]],params$latRange[[2]])) %>%
@@ -33,6 +38,7 @@ binYears <- rowMeans(cbind(binvec[-1],binvec[-length(binvec)]))
 #setup ensemble
 nens <- params$nens
 
+print("Building Ensembles")
 if(params$ncores > 1){
 
 registerDoParallel(params$ncores)
@@ -73,7 +79,7 @@ outComposite <- cbind(binYears,thisComposite) %>%
   setNames(c(params$ageVar,paste0("ens",seq_len(params$nens))))
 
 
-
+print("Creating Plot")
 compPlot <- plotTimeseriesEnsRibbons(X = binYears,Y = thisComposite,limit.outliers.x = 0)+
   scale_x_reverse(params$ageVar,oob = scales::squish)+
   scale_y_continuous("Composite",oob = scales::squish)+
@@ -104,9 +110,12 @@ if(!dir.exists(params$outDir)){
   dir.create(params$outDir)
 }
 
+print("Saving Output")
+
 ggsave(outPlot,filename = file.path(params$outDir,"compositePlot.pdf"))
 
 readr::write_csv(outComposite,file.path(params$outDir,"compositeEnsemble.csv"))
 readr::write_csv(outDens,file.path(params$outDir,"densityEnsemble.csv"))
 readr::write_csv(outRecs,file.path(params$outDir,"recEnsemble.csv"))
 
+print("Complete!")

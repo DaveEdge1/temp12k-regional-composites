@@ -477,11 +477,24 @@
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "compositeR",
-      "RemoteUsername": "nickmckay",
+      "RemoteUsername": "DaveEdge1",
       "RemoteRef": "HEAD",
       "RemoteSha": "05f251492a1d0b5a642e91cb82aff8c0620f9851",
       "Hash": "857f7f217861d5fd02065ccd8bf34a92",
-      "Requirements": []
+      "Requirements": [
+        "pracma",
+        "dplyr",
+        "egg",
+        "geoChronR",
+        "ggplot2",
+        "jsonlite",
+        "lipdR",
+        "magrittr",
+        "purrr",
+        "readr",
+        "scales",
+        "renv"
+      ]
     },
     "cpp11": {
       "Package": "cpp11",
