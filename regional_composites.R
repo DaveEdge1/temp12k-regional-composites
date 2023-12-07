@@ -21,6 +21,9 @@ print(getwd())
 #get parameters
 params <- jsonlite::read_json("params.json")
 
+print("reconsturction parameters:")
+print(params)
+
 D <- readLipd("https://lipdverse.org/Temp12k/1_0_2/Temp12k1_0_2.zip")
 
 print("Filtering data")

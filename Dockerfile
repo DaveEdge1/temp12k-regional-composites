@@ -1,5 +1,5 @@
 # Base image davidedge/lipdwebapps:lipdBase
-FROM davidedge/lipd_webapps:lipdBase
+FROM davidedge/lipd_webapps:lipdbase2
 
 ## copy files
 COPY regional_composites.R regional_composites.R
