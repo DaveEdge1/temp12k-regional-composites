@@ -24,7 +24,7 @@ params <- jsonlite::read_json("params.json")
 print("reconsturction parameters:")
 print(params)
 
-D <- readLipd("proxies/custom_proxy_set.pkl")
+D <- readLipd("proxies/custom_proxy_set.lpd")
 
 print("Filtering data")
 TS <- as.lipdTsTibble(D) %>% # and the then to lipd-ts-tibble for filtering
