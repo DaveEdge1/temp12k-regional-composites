@@ -24,7 +24,8 @@ params <- jsonlite::read_json("params.json")
 print("reconsturction parameters:")
 print(params)
 
-D <- readLipd("https://lipdverse.org/Temp12k/1_0_2/Temp12k1_0_2.zip")
+#D <- readLipd("https://lipdverse.org/Temp12k/1_0_2/Temp12k1_0_2.zip")
+D <- readLipd("lipds.zip")
 
 print("Filtering data")
 TS <- as.lipdTsTibble(D) %>% # and the then to lipd-ts-tibble for filtering
