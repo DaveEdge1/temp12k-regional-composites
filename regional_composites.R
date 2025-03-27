@@ -25,16 +25,12 @@ print("reconsturction parameters:")
 print(params)
 
 #D <- readLipd("https://lipdverse.org/Temp12k/1_0_2/Temp12k1_0_2.zip")
-D <- readRDS("lipd.rds")
+tts <- readRDS("lipd_tts.rds")
 
 print("Filtering data")
-TS <- as.lipdTsTibble(D) %>% # and the then to lipd-ts-tibble for filtering
-  filter(between(geo_longitude,params$lonRange[[1]],params$lonRange[[2]])) %>%
-  filter(between(geo_latitude,params$latRange[[1]],params$latRange[[2]])) %>%
-  filter(interpretation1_variable == params$interpVariable) %>% #only variables sensitive temperature
-  filter(paleoData_medianRes12k < params$maxResolution) %>% #only time series at highres
-  filter(interpretation1_seasonalityGeneral == params$seasonalityGeneral) %>% #only summer proxies
-  as.lipdTs() #back to TS for compositeR
+tts <- tts[unlist(lapply(tts$paleoData_values, function(x) !any(is.na(as.numeric(x))))),]
+TS <- as.lipdTs(tts) #back to TS for compositeR
+
 
 
 #bin the TS
